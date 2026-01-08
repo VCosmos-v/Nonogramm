@@ -127,11 +127,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="file_io.cpp" />
+    <ClCompile Include="game_logic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mod.cpp" />
+    <ClCompile Include="out.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="file_io.h" />
     <ClInclude Include="func.h" />
+    <ClInclude Include="game_logic.h" />
+    <ClInclude Include="out.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

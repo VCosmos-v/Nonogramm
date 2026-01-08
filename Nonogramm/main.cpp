@@ -1,5 +1,8 @@
 ﻿#include <locale.h>
 #include "func.h"
+#include "game_logic.h"
+#include "out.h"
+#include "file_io.h"
 
 int main() {
     setlocale(LC_ALL, "ru");
