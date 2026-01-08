@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Nonogramm/Nonogramm.vcxproj" />
+  <Project Path="Nonogramm/Nonogramm.vcxproj" Id="3b30c499-4118-4164-bbbb-0c298d6f6356" />
 </Solution>
