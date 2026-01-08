@@ -1,4 +1,4 @@
-#include <locale.h>
+ï»¿#include <locale.h>
 #include "func.h"
 
 int main() {
@@ -17,38 +17,38 @@ int main() {
         case 0: break;
 
         case 1:
-            std::cout << "Èìÿ ôàéëà: ";
+            std::cout << "Ð˜Ð¼Ñ Ñ„Ð°Ð¹Ð»Ð°: ";
             std::cin >> file;
 
             if (!loadPuzzle(file, solution)) {
-                std::cout << "Îøèáêà çàãðóçêè!\n";
+                std::cout << "ÐžÑˆÐ¸Ð±ÐºÐ° Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸!\n";
                 continue;
             }
 
             generateHints(solution, rowHints, colHints);
             hasPuzzle = true;
-            std::cout << "Çàäà÷à çàãðóæåíà.\n";
+            std::cout << "Ð—Ð°Ð´Ð°Ñ‡Ð° Ð·Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð°.\n";
             break;
 
         case 2:
             if (!hasPuzzle) {
-                std::cout << "Ñíà÷àëà çàãðóçèòå çàäà÷ó!\n";
+                std::cout << "Ð¡Ð½Ð°Ñ‡Ð°Ð»Ð° Ð·Ð°Ð³Ñ€ÑƒÐ·Ð¸Ñ‚Ðµ Ð·Ð°Ð´Ð°Ñ‡Ñƒ!\n";
                 break;
             }
-            std::cout << "\nÏîëå:\n";
+            std::cout << "\nÐŸÐ¾Ð»Ðµ:\n";
             printGrid(solution);
             break;
 
         case 3:
             if (!hasPuzzle) {
-                std::cout << "Ñíà÷àëà çàãðóçèòå çàäà÷ó!\n";
+                std::cout << "Ð¡Ð½Ð°Ñ‡Ð°Ð»Ð° Ð·Ð°Ð³Ñ€ÑƒÐ·Ð¸Ñ‚Ðµ Ð·Ð°Ð´Ð°Ñ‡Ñƒ!\n";
                 break;
             }
             playGame(solution);
             break;
 
         default:
-            std::cout << "Íåâåðíûé ïóíêò ìåíþ!\n";
+            std::cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð¿ÑƒÐ½ÐºÑ‚ Ð¼ÐµÐ½ÑŽ!\n";
             break;
         }
     }

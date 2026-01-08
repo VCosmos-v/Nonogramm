@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <vector>
 using Grid = std::vector<std::vector<char>>;
@@ -13,3 +13,5 @@ void printMenu();
 bool loadPuzzle(std::string& filename, Grid& field);
 bool savePuzzle(std::string& filename, Grid& field);
 void playGame(Grid& solution);
+void printGameView(Grid& field, Hints& rowHints, Hints& colHints);
+void printInGameMenu();

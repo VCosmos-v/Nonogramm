@@ -1,4 +1,4 @@
-#include <iostream>
+Ôªø#include <iostream>
 #include <vector>
 #include <fstream>
 #include <string>
@@ -57,7 +57,7 @@ bool checkSolution(Grid& field, Hints& rowHints, Hints& colHints) {
     return true;
 }
 
-// ¬˚‚Ó‰
+// –í—ã–≤–æ–¥
 
 void printGrid(Grid& field) {
     std::cout << "\n   ";
@@ -74,14 +74,14 @@ void printGrid(Grid& field) {
 }
 
 void printHints(Hints& rowHints, Hints& colHints) {
-    std::cout << "\nœÓ‰ÒÍ‡ÁÍË ÒÚÓÍ:\n";
+    std::cout << "\n–ü–æ–¥—Å–∫–∞–∑–∫–∏ —Å—Ç—Ä–æ–∫:\n";
     for (int i = 0; i < rowHints.size(); ++i) {
         std::cout << i << ": ";
         for (int x : rowHints[i]) std::cout << x << " ";
         std::cout << "\n";
     }
 
-    std::cout << "\nœÓ‰ÒÍ‡ÁÍË ÒÚÓÎ·ˆÓ‚:\n";
+    std::cout << "\n–ü–æ–¥—Å–∫–∞–∑–∫–∏ —Å—Ç–æ–ª–±—Ü–æ–≤:\n";
     for (int j = 0; j < colHints.size(); ++j) {
         std::cout << j << ": ";
         for (int x : colHints[j]) std::cout << x << " ";
@@ -89,17 +89,58 @@ void printHints(Hints& rowHints, Hints& colHints) {
     }
 }
 
-
 void printMenu() {
-    std::cout << "\n=== ÕŒÕŒ√–¿ÃÃ€ ===\n"
-        << "1. «‡„ÛÁËÚ¸ Á‡‰‡˜Û ËÁ Ù‡ÈÎ‡\n"
-        << "2. œÓÍ‡Á‡Ú¸ ÔÓÎÂ Â¯ÂÌËˇ\n"
-        << "3. Õ‡˜‡Ú¸ Ë„Û\n"
-        << "0. ¬˚ıÓ‰\n"
-        << "¬˚·Ó: ";
+    std::cout << "\n=== –ù–û–ù–û–ì–†–ê–ú–ú–´ ===\n"
+        << "1. –ó–∞–≥—Ä—É–∑–∏—Ç—å –∑–∞–¥–∞—á—É –∏–∑ —Ñ–∞–π–ª–∞\n"
+        << "2. –ü–æ–∫–∞–∑–∞—Ç—å –ø–æ–ª–µ —Ä–µ—à–µ–Ω–∏—è\n"
+        << "3. –ù–∞—á–∞—Ç—å –∏–≥—Ä—É\n"
+        << "0. –í—ã—Ö–æ–¥\n"
+        << "–í—ã–±–æ—Ä: ";
 }
 
-// –‡·ÓÚ‡ Ò Ù‡ÈÎ‡ÏË
+void printInGameMenu() {
+    std::cout << "–ö–æ–º–∞–Ω–¥—ã:\n";
+    std::cout << " fill x y   - –∑–∞–∫—Ä–∞—Å–∏—Ç—å\n";
+    std::cout << " clear x y  - –æ—á–∏—Å—Ç–∏—Ç—å\n";
+    std::cout << " solve      - –ø—Ä–∏–º–µ–Ω–∏—Ç—å —Ä–µ—à–∞—Ç–µ–ª—å\n";
+    std::cout << " check      - –ø—Ä–æ–≤–µ—Ä–∏—Ç—å —Ä–µ—à–µ–Ω–∏–µ\n";
+    std::cout << " show       - –ø–æ–∫–∞–∑–∞—Ç—å –ø–æ–ª–µ\n";
+    std::cout << " commands   - –ø–æ–∫–∞–∑–∞—Ç—å –∫–æ–º–∞–Ω–¥—ã\n";
+    std::cout << " exit       - –≤—ã—Ö–æ–¥\n";
+}
+
+void printGameView(Grid& field, Hints& rowHints, Hints& colHints) {
+
+    int n = field.size();
+    int m = field[0].size();
+
+    std::cout << "\n   ";
+    for (int j = 0; j < m; ++j) std::cout << j << " ";
+    std::cout << "\n";
+
+    for (int i = 0; i < n; ++i) {
+        std::cout << i << ": ";
+        for (int j = 0; j < m; ++j)
+            std::cout << field[i][j] << " ";
+
+        std::cout << "| ";
+        for (int x : rowHints[i]) std::cout << x << " ";
+        std::cout << "\n";
+    }
+
+    std::cout << "----";
+    for (int j = 0; j < m; ++j) std::cout << "--";
+    std::cout << "\n   ";
+
+    for (int j = 0; j < m; ++j) {
+        for (int x : colHints[j])
+            std::cout << x;
+        std::cout << " ";
+    }
+    std::cout << "\n";
+}
+
+// –†–∞–±–æ—Ç–∞ —Å —Ñ–∞–π–ª–∞–º–∏
 
 bool loadPuzzle(std::string& filename, Grid& field) {
     std::ifstream f;
@@ -144,15 +185,10 @@ void playGame(Grid& solution) {
 
     std::string cmd;
 
-    std::cout << " ÓÏ‡Ì‰˚:\n";
-    std::cout << " fill x y   - Á‡Í‡ÒËÚ¸ ÍÎÂÚÍÛ\n";
-    std::cout << " clear x y  - Ó˜ËÒÚËÚ¸ ÍÎÂÚÍÛ\n";
-    std::cout << " show       - ÔÓÍ‡Á‡Ú¸ ÔÓÎÂ\n";
-    std::cout << " hints      - ÔÓÍ‡Á‡Ú¸ ÔÓ‰ÒÍ‡ÁÍË\n";
-    std::cout << " exit       - ‚˚ıÓ‰\n";
+    std::cout << "\n=== –ò–ì–†–ê ===\n";
+    printInGameMenu();
 
-    printHints(rowHints, colHints);
-    printGrid(player);
+    printGameView(player, rowHints, colHints);
 
     while (true) {
         std::cout << "\n> ";
@@ -160,12 +196,19 @@ void playGame(Grid& solution) {
 
         if (cmd == "exit") break;
 
-        else if (cmd == "show") {
-            printGrid(player);
+        else if (cmd == "commands") {
+            printInGameMenu();
         }
 
-        else if (cmd == "hints") {
-            printHints(rowHints, colHints);
+        else if (cmd == "show") {
+            printGameView(player, rowHints, colHints);
+        }
+
+        else if (cmd == "check") {
+            if (checkSolution(player, rowHints, colHints))
+                std::cout << "–†–µ—à–µ–Ω–∏–µ –≤–µ—Ä–Ω–æ–µ!\n";
+            else
+                std::cout << "–ü–æ–∫–∞ –µ—Å—Ç—å –æ—à–∏–±–∫–∏.\n";
         }
 
         else if (cmd == "fill" || cmd == "clear") {
@@ -173,23 +216,18 @@ void playGame(Grid& solution) {
             std::cin >> x >> y;
 
             if (x < 0 || x >= m || y < 0 || y >= n) {
-                std::cout << "ÕÂ‚ÂÌ˚Â ÍÓÓ‰ËÌ‡Ú˚!\n";
+                std::cout << "–ù–µ–≤–µ—Ä–Ω—ã–µ –∫–æ–æ—Ä–¥–∏–Ω–∞—Ç—ã!\n";
                 continue;
             }
 
             if (cmd == "fill") player[y][x] = '#';
             else player[y][x] = '.';
 
-            printGrid(player);
-
-            if (checkSolution(player, rowHints, colHints)) {
-                std::cout << "\n¬˚ Â¯ËÎË ÌÓÌÓ„‡ÏÏÛ!\n";
-                break;
-            }
+            printGameView(player, rowHints, colHints);
         }
 
         else {
-            std::cout << "ÕÂËÁ‚ÂÒÚÌ‡ˇ ÍÓÏ‡Ì‰‡. »ÒÔÓÎ¸ÁÛÈ fill/clear/show/hints/exit.\n";
+            std::cout << "–ù–µ–∏–∑–≤–µ—Å—Ç–Ω–∞—è –∫–æ–º–∞–Ω–¥–∞.\n";
         }
     }
 }
