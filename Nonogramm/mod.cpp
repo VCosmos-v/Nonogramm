@@ -40,43 +40,26 @@ bool checkLine(std::vector<char>& line, std::vector<int>& hints) {
     return getLineHints(line) == hints;
 }
 
-bool checkSolution(Grid& field, Hints& rowHints, Hints& colHints) {
-
-    int n = field.size(), m = field[0].size();
-
-    for (int i = 0; i < n; ++i)
-        if (!checkLine(field[i], rowHints[i]))
-            return false;
-
-    for (int j = 0; j < m; ++j) {
-        std::vector<char> col(n);
-        for (int i = 0; i < n; ++i) col[i] = field[i][j];
-        if (!checkLine(col, colHints[j]))
-            return false;
+bool checkSolution(Grid& field, Grid& solution) {
+    for (int i = 0; i < field.size(); i++) {
+        for (int j = 0; j < field[0].size(); j++) {
+            if (solution[i][j] == '.' && field[i][j] == '#') {
+                return false;
+            }
+        }
     }
     return true;
 }
 
-void solveLine(std::vector<char>& line, std::vector<int>& hints) {
-    int n = line.size();
-    if (hints.size() == 1 && hints[0] == 0) {
-        for (char& c : line) c = '.';
-        return;
+bool checkWin(Grid& field, Grid& solution) {
+    for (int i = 0; i < field.size(); i++) {
+        for (int j = 0; j < field[0].size(); j++) {
+            if (field[i][j] != solution[i][j]) {
+                return false;
+            }
+        }
     }
-
-    int total = 0;
-    for (int x : hints) total += x;
-    total += hints.size() - 1;
-
-    if (total != n) return;
-
-    int pos = 0;
-    for (int h : hints) {
-        for (int i = 0; i < h; ++i)
-            line[pos++] = '#';
-        if (pos < n)
-            line[pos++] = '.';
-    }
+    return true;
 }
 
 // Вывод
@@ -210,24 +193,14 @@ bool savePuzzle(std::string& filename, Grid& field) {
 
 // Решатель
 
-void Solver(Grid& field, Hints& rowHints, Hints& colHints) {
-    int n = field.size();
-    int m = field[0].size();
-
-    for (int i = 0; i < n; ++i) {
-        solveLine(field[i], rowHints[i]);
+bool Solver(Grid& field, Grid& solution) {
+    static int row = 0;
+    if (row >= solution.size()) return false;
+    for (int i = 0; i < solution[0].size(); i++) {
+        field[row][i] = solution[row][i];
     }
-
-    for (int j = 0; j < m; ++j) {
-        std::vector<char> col(n);
-        for (int i = 0; i < n; ++i)
-            col[i] = field[i][j];
-
-        solveLine(col, colHints[j]);
-
-        for (int i = 0; i < n; ++i)
-            field[i][j] = col[i];
-    }
+    row++;
+    return true;
 }
 
 // Создание своей задачи
@@ -276,7 +249,7 @@ void playGame(Grid& solution) {
     printInGameMenu();
 
     printGameView(player, rowHints, colHints);
-
+    bool win = false;
     while (true) {
         std::cout << "\n> ";
         std::cin >> cmd;
@@ -292,16 +265,24 @@ void playGame(Grid& solution) {
         }
 
         else if (cmd == "solve") {
-            Solver(player, rowHints, colHints);
-            std::cout << "Решатель применён.\n";
+            if (Solver(player, solution))
+                std::cout << "Решена следующая строка.\n";
+            else
+                std::cout << "Нет строки для решения.\n";
+
             printGameView(player, rowHints, colHints);
+            win = checkWin(player, solution);
+            if (win) {
+                std::cout << "Задача решена!";
+                break;
+            }
         }
 
         else if (cmd == "check") {
-            if (checkSolution(player, rowHints, colHints))
+            if (checkSolution(player, solution))
                 std::cout << "Решение верное!\n";
             else
-                std::cout << "Пока есть ошибки.\n";
+                std::cout << "Есть ошибки.\n";
         }
 
         else if (cmd == "fill" || cmd == "clear") {
@@ -317,6 +298,11 @@ void playGame(Grid& solution) {
             else player[y][x] = '.';
 
             printGameView(player, rowHints, colHints);
+            win = checkWin(player, solution);
+            if (win) {
+                std::cout << "Задача решена!";
+                break;
+            }
         }
 
         else {
