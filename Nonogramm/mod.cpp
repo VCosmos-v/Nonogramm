@@ -57,6 +57,28 @@ bool checkSolution(Grid& field, Hints& rowHints, Hints& colHints) {
     return true;
 }
 
+void solveLine(std::vector<char>& line, std::vector<int>& hints) {
+    int n = line.size();
+    if (hints.size() == 1 && hints[0] == 0) {
+        for (char& c : line) c = '.';
+        return;
+    }
+
+    int total = 0;
+    for (int x : hints) total += x;
+    total += hints.size() - 1;
+
+    if (total != n) return;
+
+    int pos = 0;
+    for (int h : hints) {
+        for (int i = 0; i < h; ++i)
+            line[pos++] = '#';
+        if (pos < n)
+            line[pos++] = '.';
+    }
+}
+
 // Вывод
 
 void printGrid(Grid& field) {
@@ -94,6 +116,7 @@ void printMenu() {
         << "1. Загрузить задачу из файла\n"
         << "2. Показать поле решения\n"
         << "3. Начать игру\n"
+        << "4. Создать свою задачу\n"
         << "0. Выход\n"
         << "Выбор: ";
 }
@@ -130,15 +153,26 @@ void printGameView(Grid& field, Hints& rowHints, Hints& colHints) {
 
     std::cout << "----";
     for (int j = 0; j < m; ++j) std::cout << "--";
-    std::cout << "\n   ";
-
-    for (int j = 0; j < m; ++j) {
-        for (int x : colHints[j])
-            std::cout << x;
-        std::cout << " ";
-    }
     std::cout << "\n";
+
+    int maxHints = 0;
+    for (auto& h : colHints)
+        if (h.size() > maxHints)
+            maxHints = h.size();
+
+    for (int k = 0; k < maxHints; ++k) {
+        std::cout << "   ";
+        for (int j = 0; j < m; ++j) {
+            if (k < colHints[j].size())
+                std::cout << colHints[j][k] << " ";
+            else
+                std::cout << "  ";
+        }
+        std::cout << "\n";
+    }
+
 }
+
 
 // Работа с файлами
 
@@ -174,6 +208,59 @@ bool savePuzzle(std::string& filename, Grid& field) {
     return true;
 }
 
+// Решатель
+
+void Solver(Grid& field, Hints& rowHints, Hints& colHints) {
+    int n = field.size();
+    int m = field[0].size();
+
+    for (int i = 0; i < n; ++i) {
+        solveLine(field[i], rowHints[i]);
+    }
+
+    for (int j = 0; j < m; ++j) {
+        std::vector<char> col(n);
+        for (int i = 0; i < n; ++i)
+            col[i] = field[i][j];
+
+        solveLine(col, colHints[j]);
+
+        for (int i = 0; i < n; ++i)
+            field[i][j] = col[i];
+    }
+}
+
+// Создание своей задачи
+
+
+void createPuzzle(Grid& field) {
+    int n, m;
+    std::cout << "Размер поля (n m): ";
+    std::cin >> n >> m;
+
+    field.assign(n, std::vector<char>(m, '.'));
+
+    std::cout << "Ввод поля (# или .):\n";
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < m; ++j) {
+            std::cin >> field[i][j];
+            if (field[i][j] != '#' && field[i][j] != '.')
+                field[i][j] = '.';
+        }
+    }
+
+    std::string file;
+    std::cout << "Имя файла для сохранения: ";
+    std::cin >> file;
+
+    savePuzzle(file, field);
+    std::cout << "Задача сохранена.\n";
+}
+
+
+// Игра
+
 void playGame(Grid& solution) {
     int n = solution.size();
     int m = solution[0].size();
@@ -201,6 +288,12 @@ void playGame(Grid& solution) {
         }
 
         else if (cmd == "show") {
+            printGameView(player, rowHints, colHints);
+        }
+
+        else if (cmd == "solve") {
+            Solver(player, rowHints, colHints);
+            std::cout << "Решатель применён.\n";
             printGameView(player, rowHints, colHints);
         }
 

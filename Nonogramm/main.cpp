@@ -46,7 +46,11 @@ int main() {
             }
             playGame(solution);
             break;
-
+        case 4:
+            createPuzzle(solution);
+            generateHints(solution, rowHints, colHints);
+            hasPuzzle = true;
+            break;
         default:
             std::cout << "Неверный пункт меню!\n";
             break;

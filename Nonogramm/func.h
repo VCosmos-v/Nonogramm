@@ -15,3 +15,6 @@ bool savePuzzle(std::string& filename, Grid& field);
 void playGame(Grid& solution);
 void printGameView(Grid& field, Hints& rowHints, Hints& colHints);
 void printInGameMenu();
+void solveLine(std::vector<char>& line, std::vector<int>& hints);
+void Solver(Grid& field, Hints& rowHints, Hints& colHints);
+void createPuzzle(Grid& field);
