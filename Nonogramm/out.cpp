@@ -57,6 +57,7 @@ void printInGameMenu() {
     std::cout << " exit       - выход\n";
 }
 
+// Вывод поля с подсказками
 void printGameView(Grid& field, Hints& rowHints, Hints& colHints) {
 
     int n = field.size();

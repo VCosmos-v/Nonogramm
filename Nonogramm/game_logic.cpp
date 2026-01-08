@@ -8,6 +8,7 @@
 using Grid = std::vector<std::vector<char>>;
 using Hints = std::vector<std::vector<int>>;
 
+// Подсказки в линии
 std::vector<int> getLineHints(std::vector<char>& line) {
     std::vector<int> hints;
     int cnt = 0;
@@ -23,6 +24,7 @@ std::vector<int> getLineHints(std::vector<char>& line) {
     return hints;
 }
 
+// Подсказки на поле
 void generateHints(Grid& field, Hints& rowHints, Hints& colHints) {
     int n = field.size(), m = field[0].size();
     rowHints.clear(); colHints.clear();
@@ -37,10 +39,7 @@ void generateHints(Grid& field, Hints& rowHints, Hints& colHints) {
     }
 }
 
-bool checkLine(std::vector<char>& line, std::vector<int>& hints) {
-    return getLineHints(line) == hints;
-}
-
+// Проверка на ошибки
 bool checkSolution(Grid& field, Grid& solution) {
     for (int i = 0; i < field.size(); i++) {
         for (int j = 0; j < field[0].size(); j++) {
@@ -52,6 +51,7 @@ bool checkSolution(Grid& field, Grid& solution) {
     return true;
 }
 
+// Проверка на победу
 bool checkWin(Grid& field, Grid& solution) {
     for (int i = 0; i < field.size(); i++) {
         for (int j = 0; j < field[0].size(); j++) {
@@ -63,6 +63,7 @@ bool checkWin(Grid& field, Grid& solution) {
     return true;
 }
 
+// Геймплей
 void playGame(Grid& solution) {
     int n = solution.size();
     int m = solution[0].size();
