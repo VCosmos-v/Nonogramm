@@ -17,3 +17,4 @@ void printGameView(Grid& field, Hints& rowHints, Hints& colHints);
 void printInGameMenu();
 void createPuzzle(Grid& field);
 bool Solver(Grid& field, Grid& solution);
+bool readInt(int& value);

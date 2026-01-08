@@ -12,7 +12,10 @@ int main() {
 
     while (choice != 0) {
         printMenu();
-        std::cin >> choice;
+        while (!readInt(choice)) {
+            std::cout << "Неверный ввод\n"
+                << "Выбор: ";
+        }
         switch (choice) {
         case 0: break;
 

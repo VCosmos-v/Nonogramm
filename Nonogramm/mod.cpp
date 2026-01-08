@@ -156,6 +156,17 @@ void printGameView(Grid& field, Hints& rowHints, Hints& colHints) {
 
 }
 
+bool readInt(int& value) {
+    std::cin >> value;
+
+    if (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        return false;
+    }
+
+    return true;
+}
 
 // Работа с файлами
 
@@ -209,7 +220,10 @@ bool Solver(Grid& field, Grid& solution) {
 void createPuzzle(Grid& field) {
     int n, m;
     std::cout << "Размер поля (n m): ";
-    std::cin >> n >> m;
+    while (!readInt(n) || !readInt(m)) {
+        std::cout << "Ошибка: координаты должны быть целыми числами.\n";
+        std::cout << "Размер поля (n m): ";
+    }
 
     field.assign(n, std::vector<char>(m, '.'));
 
@@ -287,7 +301,11 @@ void playGame(Grid& solution) {
 
         else if (cmd == "fill" || cmd == "clear") {
             int x, y;
-            std::cin >> x >> y;
+
+            if (!readInt(x) || !readInt(y)) {
+                std::cout << "Ошибка: координаты должны быть целыми числами.\n";
+                continue;
+            }
 
             if (x < 0 || x >= m || y < 0 || y >= n) {
                 std::cout << "Неверные координаты!\n";
